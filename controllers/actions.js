@@ -17,7 +17,7 @@ const createExercise = async (req, res) => {
   }
   const exToSave = {
     description: description,
-    duration: duration,
+    duration: Number(duration),
     date: new Date(date).toDateString(),
   }
   await Exercise.updateOne(
@@ -28,7 +28,9 @@ const createExercise = async (req, res) => {
       },
     }
   )
-
+  const user = await Exercise.findById(req.params._id)
+  exToSave.username = user.username
+  exToSave._id = req.params._id
   res.json(exToSave)
 }
 
